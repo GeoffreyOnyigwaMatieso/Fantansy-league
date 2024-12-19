@@ -1,6 +1,7 @@
 package com.pl.premier_zone.player;
 
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -72,5 +73,10 @@ public class PlayerService {
         }
         // if nothing is found in the database return null
         return  null;
+    }
+
+    @Transactional
+    public void deletePlayer(String playerName){
+        playerRepository.deleteByName(playerName);
     }
 }
