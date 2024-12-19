@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -50,5 +51,26 @@ public class PlayerService {
                 .filter(player -> team.equals(player.getTeam_name()) && position.equals(player.getPosition()))
                 .collect(Collectors.toList());
 
+    }
+
+    public Player addPlayer(Player player){
+        playerRepository.save(player);
+        return player;
+    }
+
+    public Player updatePlayer(Player updatedPlayer){
+        Optional<Player> existingPlayer = playerRepository.findByName(updatedPlayer.getPlayer_name());
+        if(existingPlayer.isPresent()){
+            Player playerToUpdate = existingPlayer.get();
+            playerToUpdate.setPlayer_name(updatedPlayer.getPlayer_name());
+            playerToUpdate.setTeam_name(updatedPlayer.getTeam_name());
+            playerToUpdate.setPosition(updatedPlayer.getPosition());
+            playerToUpdate.setNation(updatedPlayer.getNation());
+
+            playerRepository.save(playerToUpdate);
+            return playerToUpdate;
+        }
+        // if nothing is found in the database return null
+        return  null;
     }
 }
