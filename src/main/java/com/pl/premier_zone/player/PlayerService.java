@@ -26,4 +26,29 @@ public class PlayerService {
                 .filter(player ->  teamName.equals(player.getTeam_name()))
                 .collect(Collectors.toList());
     }
+
+    public List<Player> getPlayersByName(String searchText){
+        return playerRepository.findAll().stream()
+                .filter(player -> player.getPlayer_name().toLowerCase().contains(searchText.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Player> getPlayersByPosition(String searchText) {
+        return playerRepository.findAll().stream()
+                .filter(player -> player.getPosition().toLowerCase().contains(searchText.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Player> getPlayersByNation(String searchText) {
+        return  playerRepository.findAll().stream()
+                .filter(player -> player.getNation().toLowerCase().contains(searchText.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Player> getPlayerByTeamAndPosition(String team, String position){
+        return  playerRepository.findAll().stream()
+                .filter(player -> team.equals(player.getTeam_name()) && position.equals(player.getPosition()))
+                .collect(Collectors.toList());
+
+    }
 }
