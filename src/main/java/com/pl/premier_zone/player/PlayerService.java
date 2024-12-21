@@ -4,12 +4,14 @@ package com.pl.premier_zone.player;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
+@Service
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
@@ -31,7 +33,7 @@ public class PlayerService {
 
     public List<Player> getPlayersByName(String searchText){
         return playerRepository.findAll().stream()
-                .filter(player -> player.getPlayer_name().toLowerCase().contains(searchText.toLowerCase()))
+                .filter(player -> player.getPlayerName().toLowerCase().contains(searchText.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
@@ -60,10 +62,10 @@ public class PlayerService {
     }
 
     public Player updatePlayer(Player updatedPlayer){
-        Optional<Player> existingPlayer = playerRepository.findByName(updatedPlayer.getPlayer_name());
+        Optional<Player> existingPlayer = playerRepository.findByPlayerName(updatedPlayer.getPlayerName());
         if(existingPlayer.isPresent()){
             Player playerToUpdate = existingPlayer.get();
-            playerToUpdate.setPlayer_name(updatedPlayer.getPlayer_name());
+            playerToUpdate.setPlayerName(updatedPlayer.getPlayerName());
             playerToUpdate.setTeam_name(updatedPlayer.getTeam_name());
             playerToUpdate.setPosition(updatedPlayer.getPosition());
             playerToUpdate.setNation(updatedPlayer.getNation());
@@ -77,6 +79,6 @@ public class PlayerService {
 
     @Transactional
     public void deletePlayer(String playerName){
-        playerRepository.deleteByName(playerName);
+        playerRepository.deleteByPlayerName(playerName);
     }
 }
