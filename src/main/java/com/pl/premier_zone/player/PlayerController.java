@@ -47,5 +47,17 @@ public class PlayerController {
         return new ResponseEntity<>(createdPlayer, HttpStatus.CREATED);
     }
 
+    @PutMapping
+    public ResponseEntity<Player> updatePlayer(@RequestBody Player player){
+        Player resultPlayer = playerService.updatePlayer(player);
+        if (resultPlayer != null) {
+            return new ResponseEntity<>(resultPlayer, HttpStatus.OK);
+        }
+        else {
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
 }
 
